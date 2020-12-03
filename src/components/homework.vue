@@ -71,17 +71,20 @@ export default {
     },
     methods: {
         showForm() {
+
             if (document.querySelector("#add").style.display === 'none')
                 document.querySelector("#add").style.display = 'block'
             else
                 document.querySelector("#add").style.display = 'none'
         },
         removeAll() {
+
             localStorage.setItem("work", JSON.stringify([]))
             this.work = this.sortData(this.getAssignments())
 
         },
         addAssignment() {
+
             var name = document.getElementById("assignment").value;
             var classname = document.getElementById("class").value;
             var datetime = document.getElementById("due-time").value;
@@ -113,20 +116,24 @@ export default {
             document.getElementById("notes").value = ''
         },
         getAssignments() {
+
             var work = JSON.parse(localStorage.getItem("work"))
             return work
         },
         removeAssignment(assignment) {
+
             var oldWork = this.getAssignments()
             oldWork.splice(oldWork.indexOf(assignment))
 
-            localStorage.setItem("work", JSON.stringify(oldWork))
+            localStorage.setItem("work",JSON.stringify(oldWork))
 
             this.work = this.sortData(this.getAssignments())
 
             
         },
         sortData(data) {
+
+
             data.sort((a, b) => {
                 var diff = new Date(Date.parse(a.due)) - new Date(Date.parse(b.due));
                 return diff/(Math.abs(diff)||1);
@@ -134,6 +141,8 @@ export default {
             return data
         },
         isPast(datee) {
+
+
             console.log(datee)
             if (Date.parse(datee)-Date.parse(new Date())<0) {
                 return true
@@ -141,6 +150,8 @@ export default {
             return false
         },
         formatDates() {
+
+
             var tableDates = document.getElementsByClassName("table-date")
             tableDates.forEach(timee => {
                 if (timee.innerHTML.includes("T")) {
@@ -166,6 +177,7 @@ export default {
         }
     },
     mounted() {
+
         // initialize materialize css
         M.AutoInit()
         

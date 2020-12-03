@@ -143,16 +143,30 @@ export default {
         formatDates() {
             var tableDates = document.getElementsByClassName("table-date")
             tableDates.forEach(timee => {
-                
-                var newValue = timee.innerHTML.replace("-", "/")
-                newValue = newValue.replace("T", " ")
-                document.getElementById(timee.id).innerHTML = newValue
+                if (timee.innerHTML.includes("T")) {
+                    var options = {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric'
+                    }
+                    let time = timee.innerHTML
+        
+                    
+                    var newTime = new Date(time)
+                    newTime = newTime.toLocaleDateString("en-US", options)
+
+                    document.getElementById(timee.id).innerHTML = newTime    
+                }
                 
                 
             })
         }
     },
     mounted() {
+        // initialize materialize css
         M.AutoInit()
         
         document.addEventListener('DOMContentLoaded', function() {
@@ -160,10 +174,12 @@ export default {
             var instances = M.Datepicker.init(elems, options);
         });
 
+        // set form dispaly to none
+        document.getElementById('add').style.display = 'none';
 
-        this.work = this.sortData(this.getAssignments())
-        this.formatDates()
-        setInterval(this.formatDates, 100)
+        this.work = this.sortData(this.getAssignments());
+        this.formatDates();
+        setInterval(this.formatDates, 100);
 
     }
 }
@@ -192,6 +208,17 @@ table {
     margin-left: auto;
     margin-bottom: 2rem;
 }
+
+/* for mobile */
+@media only screen and (max-width: 769px) {
+    .row {
+        width: 93%;
+    }
+    form input {
+        width: 100%;
+    }
+}
+
 
 
 </style>
